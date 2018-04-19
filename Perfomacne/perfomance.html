@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>性能优化</title>
+    <script src="./async.js" defer></script>
+</head>
+
+<body>
+    <button>点我测试</button>
+    <script>
+        var scrDom = document.createElement("script");
+        scrDom.src = "./async.js";
+        document.head.appendChild(scrDom);
+        // con();
+        setTimeout(function() {
+            console.log("延时0s执行了");
+        }, 0)
+        setTimeout(function() {
+            con();
+        }, 2000)
+        document.getElementsByTagName("button")[0].onclick = function() {
+            console.log("点了按钮了");
+            con();
+        }
+    </script>
+</body>
+
+</html>

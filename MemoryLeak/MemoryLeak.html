@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>MemoryLeak</title>
+    <script src="../jquery-1.4.2.min.js"></script>
+    <script src="leaker.js"></script>
+    <script src="main.js"></script>
+</head>
+
+<body>
+<p>
+    需通过谷歌浏览器f12调试模式的memory来抓取3个时间段的快照查看leak这个实例对象，1. 打开页面时，抓取快照，leak初始化了，并绑定到了click事件中，
+    故内存中存在该变量；2. 点击开始，抓取快照，leak仍然存在；3. 点击destroy，抓取快照，leak销毁。
+</p>
+<button id="start_button">Start</button>
+<button id="destroy_button">destroy</button>
+</body>
+<script>
+    var Leaker = function () {
+
+    };
+    Leaker.prototype = {
+        init: function () {
+            this._interval = null;
+            this.start();
+        },
+        start: function () {
+            var self = this;
+            console.log("start");
+            this._interval = setInterval(function () {
+                self.onInterval();
+            }, 2000);
+        },
+        destroy: function () {
+            if (this._interval !== null) {
+                clearInterval(this._interval);
+            }
+        },
+        onInterval: function () {
+            console.log("Interval");
+        }
+    };
+    var leak = new Leaker();
+    $("#start_button").click(function () {
+        leak.init();
+        console.log("start");
+    });
+    $("#destroy_button").click(function () {
+        leak.destroy();
+        //由于leak绑定在了click事件上，不置null的话会一直留在内存当中
+        leak = null;
+    })
+</script>
+
+</html>

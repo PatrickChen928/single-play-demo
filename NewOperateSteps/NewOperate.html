@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>JS new-operate steps</title>
+</head>
+
+<body>
+    <p>
+        var a = new A();<br>
+        -> 创建一个空的对象 var a = {};<br>
+        -> 执行 function A(),并指定其上下文为 a;<br>
+        -> 如果A返回的是对象，则将a替换成该对象。<br>
+        实现方式如代码里面的new2函数，可在控制台输出new2(f)和new f(),效果是一致的。
+    </p>
+</body>
+<script>
+    function f() {
+        this.name = "name";
+        return function() {
+            console.log('1231232');
+        };
+    }
+    f.prototype.sayName = "sayName";
+    var fObj = new f;
+    var new2 = function(func) {
+        var o = Object.create(func.prototype);
+        var k = func.call(o);
+        if (typeof k === 'object' || typeof k === 'function') {
+            return k;
+        } else {
+            return o;
+        }
+    }
+    //Object.create创建的是继承属性，即：o.__proto__ = f.prototype
+    var o = Object.create(f.prototype);
+
+    //以下测试错误监控 ，try catch监听到之后不会抛到onerror
+    window.addEventListener("error", function() {
+        console.log("onerror监听到了错误");
+    }, true)
+    try {
+        console.log(fasfa);
+    } catch (e) {
+        console.log("try catch监听到了错误")
+    }
+</script>
+
+</html>

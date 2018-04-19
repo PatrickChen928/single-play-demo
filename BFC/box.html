@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 垂直方向边距重叠 -->
+    <section id="margin">
+        <style>
+            #margin {
+                background-color: pink;
+                overflow: hidden;
+            }
+            
+            #margin>p {
+                margin: 5px auto 25px;
+                background: red;
+            }
+        </style>
+        <p>1</p>
+        <div style="overflow: hidden;background-color: goldenrod">
+            <p>2</p>
+        </div>
+        <p>3</p>
+        <p>4</p>
+    </section>
+
+    <!-- bfc不与float重叠 -->
+    <section id="layout">
+        <style>
+            #layout {
+                background: red;
+            }
+            
+            #layout .left {
+                float: left;
+                width: 100px;
+                height: 100px;
+                background: pink;
+            }
+            
+            #layout .right {
+                height: 110px;
+                background: #ccc;
+                overflow: auto;
+            }
+        </style>
+        <div class="left"></div>
+        <div class="right"></div>
+    </section>
+
+    <!-- bfc子元素即使是float也会参与高度计算 -->
+    <section id="float">
+        <style>
+            #float {
+                background: rebeccapurple;
+                float: left;
+            }
+            
+            #float .float {
+                float: left;
+                font-size: 30px;
+            }
+        </style>
+        <div class="float">我是浮动元素</div>
+    </section>
+</body>
+
+</html>

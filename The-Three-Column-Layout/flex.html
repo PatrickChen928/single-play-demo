@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>浮动解决方案</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        html * {
+            padding: 0;
+            margin: 0;
+        }
+        
+        body {
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            margin: 10px 0;
+        }
+        
+        .content-flex {
+            display: flex;
+            text-align: center;
+            line-height: 200px;
+            font-size: 20px;
+            height: 200px;
+            width: 100%;
+        }
+        
+        .left-flex {
+            width: 300px;
+            background-color: bisque;
+        }
+        
+        .right-flex {
+            width: 300px;
+            background-color: aquamarine;
+        }
+        
+        .center-flex {
+            flex: 1;
+            background-color: brown;
+        }
+        
+        .content-flt {
+            /* text-align: center; */
+            line-height: 200px;
+            font-size: 20px;
+            height: 200px;
+            width: 100%;
+        }
+        
+        .left-flt {
+            float: left;
+            width: 300px;
+            background-color: bisque;
+        }
+        
+        .right-flt {
+            float: right;
+            width: 300px;
+            background-color: aquamarine;
+        }
+        
+        .center-flt {
+            background-color: brown;
+        }
+        
+        .content-mag {
+            /* text-align: center; */
+            line-height: 200px;
+            font-size: 20px;
+            width: 100%;
+            height: 200px;
+        }
+        
+        .left-mag {
+            float: left;
+            width: 300px;
+            margin-left: -100%;
+            background-color: bisque;
+        }
+        
+        .right-mag {
+            float: left;
+            width: 300px;
+            margin-left: -300px;
+            background-color: aquamarine;
+        }
+        
+        .center-mag {
+            float: left;
+            width: 100%;
+        }
+        
+        .center-mag .center-body {
+            margin: 0 300px;
+            background-color: brown;
+        }
+        
+        .content-pos {
+            position: relative;
+            text-align: center;
+            line-height: 200px;
+            font-size: 20px;
+            height: 200px;
+            width: 100%;
+            clear: both;
+        }
+        
+        .left-pos {
+            float: left;
+            width: 300px;
+            background-color: bisque;
+        }
+        
+        .right-pos {
+            float: right;
+            width: 300px;
+            background-color: aquamarine;
+        }
+        
+        .center-pos {
+            position: absolute;
+            left: 300px;
+            right: 300px;
+            background-color: brown;
+        }
+        
+        .content-tab {
+            display: table;
+            text-align: center;
+            line-height: 200px;
+            font-size: 20px;
+            height: 200px;
+            width: 100%;
+        }
+        
+        .left-tab {
+            display: table-cell;
+            width: 300px;
+            background-color: bisque;
+        }
+        
+        .right-tab {
+            display: table-cell;
+            width: 300px;
+            background-color: aquamarine;
+        }
+        
+        .center-tab {
+            display: table-cell;
+            background-color: brown;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-rows: 200px;
+            grid-template-columns: 300px auto 300px;
+            text-align: center;
+            line-height: 200px;
+            font-size: 20px;
+            width: 100%;
+        }
+        
+        .left-grid {
+            background-color: bisque;
+        }
+        
+        .right-grid {
+            background-color: aquamarine;
+        }
+        
+        .center-grid {
+            background-color: brown;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- flex垂直方式只需设置  flex-direction: column -->
+    <h2>1.flex方式</h2>
+    <div class="content-flex">
+        <div class="left-flex">左边宽300</div>
+        <div class="center-flex">中间自适应</div>
+        <div class="right-flex">右边宽300</div>
+    </div>
+    <h2>2.浮动方式</h2>
+    <div class="content-flt">
+        <div class="left-flt">左边宽300</div>
+        <div class="right-flt">右边宽300</div>
+        <div class="center-flt">中间自适应</div>
+    </div>
+    <h2>3.margin负值方式</h2>
+    <div class="content-mag">
+        <div class="center-mag">
+            <div class="center-body">中间自适应</div>
+        </div>
+        <div class="left-mag">左边宽300</div>
+        <div class="right-mag">右边宽300</div>
+    </div>
+    <h2 style=" clear: both;">4.定位方式</h2>
+    <div class="content-pos">
+        <div class="left-pos">左边宽300</div>
+        <div class="right-pos">右边宽300</div>
+        <div class="center-pos">中间自适应</div>
+    </div>
+    <h2>5.table方式</h2>
+    <div class="content-tab">
+        <div class="left-tab">左边宽300</div>
+        <div class="center-tab">中间自适应</div>
+        <div class="right-tab">右边宽300</div>
+    </div>
+    <h2>6.网格方式</h2>
+    <div class="content-grid">
+        <div class="left-grid">左边宽300</div>
+        <div class="center-grid">中间自适应</div>
+        <div class="right-grid">右边宽300</div>
+    </div>
+</body>
+
+</html>

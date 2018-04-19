@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ImageCompress</title>
+    <style>
+        .input-file {
+            opacity: 0;
+            width: 50px;
+            height: 31px;
+            position: absolute;
+            z-index: 2;
+        }
+
+        .file-choose {
+            position: absolute;
+            width: 50px;
+            height: 31px;
+            z-index: 1;
+        }
+
+        .file-show {
+            margin-right: 10px;
+            width: 200px;
+            height: 25px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .image-lower {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<input class="file-show">
+<button class="file-choose">浏览</button>
+<input type="file" class="input-file" id="file" multiple>
+<img id="imgLower" class="image-lower">
+<button id="upload">上 传</button>
+<ul id="fileList">
+</ul>
+<script>
+    var fileDom = document.getElementById("file");
+    // 需要压缩的最大尺寸
+    var MAX_SIZE = 500;
+    var files = [];
+    //监听文件选择事件
+    fileDom.addEventListener("change", function () {
+        var fileImg = this.files;
+        console.log(fileImg);
+        for (var i = 0; i < fileImg.length; i++) {
+            var file = fileImg[i];
+            if (!/image\/\w+/.test(file.type)) {
+                alert("请选择图片")
+                return false;
+            }
+            //创建一个文件读取的工具类
+            var reader = new FileReader();
+            //这里利用了闭包的特性，来保留文件名
+            (function (x) {
+                reader.onload = function (e) {
+                    var liNode = document.createElement("li");
+                    liNode.innerText = x;
+                    document.getElementById("fileList").appendChild(liNode);
+                    //调用压缩文件的方法，具体实现逻辑见下面
+                    render(this.result, x);
+                }
+            })(file.name);
+            //告诉文件读取工具类读取那个文件
+            reader.readAsDataURL(file);
+        }
+    }, false);
+
+    function render(src, name) {
+        //创建Image对象
+        var image = new Image();
+
+        image.onload = function () {
+            console.log(image.width, image.height);
+            //通过固定的宽高比压缩
+            //宽大于高的情况
+            if (image.width > MAX_SIZE && image.width >= image.height) {
+                image.height *= MAX_SIZE / image.width;
+                image.width = MAX_SIZE;
+            }
+            //宽小于高的情况
+            if (image.height > MAX_SIZE && image.height > image.width) {
+                image.width *= MAX_SIZE / image.height;
+                image.height = MAX_SIZE;
+            }
+            var canvas = document.createElement("canvas");
+            //获取2d画布
+            var ctx = canvas.getContext("2d");
+            canvas.width = image.width;
+            canvas.height = image.height;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            //绘制图片
+            ctx.drawImage(image, 0, 0, image.width, image.height);
+            //生成base64码
+            var blob = canvas.toDataURL("image/png");
+            files.push(blob);
+            document.getElementById("imgLower").src = blob;
+        };
+        image.src = src;
+    }
+
+    //监听上传按钮
+    document.getElementById("upload").addEventListener("click", function () {
+        ajax();
+    }, false);
+
+    //ajax请求
+    var ajax = function () {
+        var xhr = new XMLHttpRequest();
+        //本地起的服务器地址为: http://localhost:8080/index，此处推荐使用spring boot搭建服务器
+        xhr.open("POST", "http://localhost:8080/index", true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        //此处为了简便， 只考虑一个文件，多个文件类似
+        var data = "data=" + files[0];
+        //将+号转码，防止传输过程中丢失
+        xhr.send(data.replace(/\+/g, '%2B'));
+        xhr.onload = function () {
+            console.log(xhr.responseText);
+        }
+    }
+</script>
+</body>
+</html>

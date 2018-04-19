@@ -15,3 +15,5 @@ Performance: 测试defer和aysnc异步加载资源的区别，defer: 按照先�
 MemoryLeak: 内存泄露实践测试
 
 NewOperateSteps: JS种new操作的实现步骤
+
+ImageCompress: 前端图片压缩传给服务端。服务器端：https://github.com/ChpShy/single-play-demo-server.git

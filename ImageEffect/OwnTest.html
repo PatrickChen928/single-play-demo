@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>banner实现</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1,
+        p {
+            text-align: center;
+        }
+        
+        ul {
+            width: 1200px;
+            overflow: hidden;
+            margin: 50px auto;
+            list-style: none;
+        }
+        
+        ul li {
+            float: left;
+            width: 240px;
+        }
+        
+        .pic1,
+        .pic2,
+        .pic3,
+        .pic4,
+        .pic5 {
+            width: 100%;
+            height: 400px;
+        }
+        
+        .pic1 {
+            background: url('img/1.jpg') no-repeat center 0;
+        }
+        
+        .pic2 {
+            background: url('img/2.jpg') no-repeat center 0;
+        }
+        
+        .pic3 {
+            background: url('img/3.jpg') no-repeat center 0;
+        }
+        
+        .pic4 {
+            background: url('img/4.jpg') no-repeat center 0;
+        }
+        
+        .pic5 {
+            background: url('img/5.jpg') no-repeat center 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>JS实现鼠标移动图片伸缩效果</h1>
+
+    <p>要点：清除轮询器是关键</p>
+    <div>
+        <ul id="pic">
+            <li>
+                <div class="pic1"></div>
+            </li>
+            <li>
+                <div class="pic2"></div>
+            </li>
+            <li>
+                <div class="pic3"></div>
+            </li>
+            <li>
+                <div class="pic4"></div>
+            </li>
+            <li>
+                <div class="pic5"></div>
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        //需是 Ul>li>图片的结构
+        var slide = function() {
+            //m：绑定setInterval的对象;
+            var m = {},
+                parentObj, pW, lW, l, lht, sht, lNodes, time;
+            return {
+                destory: function() {
+                    if (m.overTimer) {
+                        clearInterval(m.overTimer);
+                    }
+                    if (m.outTimer) {
+                        clearInterval(m.outTimer);
+                    }
+                },
+                //pId,父级节点的id； ht，鼠标移上去之后的宽度；t:轮询的时间
+                build: function(pId, ht, t) {
+                    parentObj = document.getElementById(pId);
+                    lht = ht;
+                    time = t;
+                    // pW = window.getComputedStyle(parentObj).width;
+                    // pW = parentObj.offsetWidth;
+                    pW = parentObj.getBoundingClientRect().width;
+                    lNodes = parentObj.getElementsByTagName("li");
+                    l = lNodes.length;
+                    lW = pW / l;
+                    //缩小后其他li的平均宽度
+                    sht = Math.floor((pW - ht) / (l - 1));
+                    for (var i = 0; i < l; i++) {
+                        this.timer(lNodes[i], t);
+                    }
+                },
+                timer: function(lNode, t) {
+                    var self = this;
+                    lNode.onmouseover = function(e) {
+                        if (m) {
+                            clearInterval(m.overTimer);
+                            clearInterval(m.outTimer);
+                        }
+                        m.overTimer = setInterval(function() {
+                            self.toSlide(lNode, "over");
+                        }, t);
+                    };
+                    lNode.onmouseout = function(e) {
+                        if (m) {
+                            clearInterval(m.overTimer);
+                            clearInterval(m.outTimer);
+                        }
+
+                        m.outTimer = setInterval(function() {
+                            self.toSlide(lNode, "out");
+                        }, t);
+                    }
+                },
+                toSlide: function(lNode, type) {
+                    var lt = lNode.getBoundingClientRect().width,
+                        nw = 0,
+                        tw;
+                    if ((type == "over" && lt == lht) || (type == "out" && parseInt(lt) == lW)) {
+                        if (m.overTimer)
+                            clearInterval(m.overTimer);
+                        if (m.outTimer)
+                            clearInterval(m.outTimer);
+                    }
+                    for (var i = 0; i < l; i++) {
+                        var lN = lNodes[i];
+                        if (lN != lNode) {
+                            var lNW = lN.getBoundingClientRect().width;
+                            if (type == "over") {
+                                if (lNW > sht) {
+                                    tw = lNW - (lNW - sht) / 10;
+                                    lN.style.width = tw + "px";
+                                } else {
+                                    tw = lNW + (sht - lNW) / 10;
+                                    lN.style.width = tw + "px";
+                                }
+                                nw += tw;
+                            } else {
+                                if (lNW > lW) {
+                                    tw = lNW - (lNW - lW) / 10;
+                                    lN.style.width = tw + "px";
+                                } else {
+                                    tw = lNW + (lW - lNW) / 10;
+                                    lN.style.width = tw + "px";
+                                }
+                                nw += tw;
+                            }
+                        }
+                    }
+                    lNode.style.width = pW - nw + "px";
+                }
+            }
+        }();
+        slide.build("pic", 400, 10);
+    </script>
+</body>
+
+</html>

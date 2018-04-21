@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>鼠标经过图片的特效实现</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        .wrapper {
+            margin-top: 50px;
+        }
+        
+        ul {
+            list-style: none;
+            overflow: hidden;
+            width: 1200px;
+            margin: 0 auto;
+        }
+        
+        ul li {
+            float: left;
+            cursor: pointer;
+        }
+        
+        .picture1 {
+            width: 100%;
+            height: 439px;
+            background: url('img/1.jpg') no-repeat center 0;
+        }
+        
+        .picture2 {
+            width: 100%;
+            height: 439px;
+            background: url('img/2.jpg') no-repeat center 0;
+        }
+        
+        .picture3 {
+            width: 100%;
+            height: 439px;
+            background: url('img/3.jpg') no-repeat center 0;
+        }
+        
+        .picture4 {
+            width: 100%;
+            height: 439px;
+            background: url('img/4.jpg') no-repeat center 0;
+        }
+        
+        .picture5 {
+            width: 100%;
+            height: 439px;
+            background: url('img/5.jpg') no-repeat center 0;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="wrapper">
+        <ul id="pic">
+            <li>
+                <div class="picture1"></div>
+            </li>
+            <li>
+                <div class="picture2"></div>
+            </li>
+            <li>
+                <div class="picture3"></div>
+            </li>
+            <li>
+                <div class="picture4"></div>
+            </li>
+            <li>
+                <div class="picture5"></div>
+            </li>
+        </ul>
+    </section>
+    <script>
+        var slideMenu = function() {
+            var sp, st, t, m, sa, l, w, gw, ot;
+            return {
+                destruct: function() {
+                    if (m) {
+                        clearInterval(m.htimer);
+                        clearInterval(m.timer);
+                    }
+                },
+                build: function(sm, sw, mt, s, sl, h) {
+                    sp = s;
+                    st = sw;
+                    t = mt;
+                    m = document.getElementById(sm);
+                    sa = m.getElementsByTagName('li');
+                    l = sa.length;
+                    w = m.offsetWidth;
+                    gw = w / l;
+                    ot = Math.floor((w - st) / (l - 1));
+                    var i = 0;
+                    for (i; i < l; i++) {
+                        s = sa[i];
+                        s.style.width = gw + 'px';
+                        this.timer(s)
+                    }
+                    if (sl != null) {
+                        m.timer = setInterval(function() {
+                            slideMenu.slide(sa[sl - 1])
+                        }, t)
+                    }
+                },
+                timer: function(s) {
+                    s.onmouseover = function() {
+                        clearInterval(m.htimer);
+                        clearInterval(m.timer);
+                        m.timer = setInterval(function() {
+                            slideMenu.slide(s)
+                        }, t);
+                    }
+                    s.onmouseout = function() {
+                        clearInterval(m.timer);
+                        clearInterval(m.htimer);
+                        m.htimer = setInterval(function() {
+                            slideMenu.slide(s, true)
+                        }, t);
+                    }
+                },
+                slide: function(s, c) {
+                    var cw = parseInt(s.style.width);
+                    if ((cw < st && !c) || (cw > gw && c)) {
+                        var owt = 0;
+                        var i = 0;
+                        for (i; i < l; i++) {
+                            if (sa[i] != s) {
+                                var o, ow;
+                                var oi = 0;
+                                o = sa[i];
+                                ow = parseInt(o.style.width);
+                                if (ow < gw && c) {
+                                    oi = Math.floor((gw - ow) / sp);
+                                    oi = (oi > 0) ? oi : 1;
+                                    o.style.width = (ow + oi) + 'px';
+                                } else if (ow > ot && !c) {
+                                    oi = Math.floor((ow - ot) / sp);
+                                    oi = (oi > 0) ? oi : 1;
+                                    o.style.width = (ow - oi) + 'px';
+                                }
+                                if (c) {
+                                    owt = owt + (ow + oi)
+                                } else {
+                                    owt = owt + (ow - oi)
+                                }
+                            }
+                        }
+                        s.style.width = (w - owt) + 'px';
+                    } else {
+                        if (m.htimer)
+                            clearInterval(m.htimer)
+                        if (m.timer)
+                            clearInterval(m.timer);
+                    }
+                }
+            };
+        }();
+        slideMenu.build('pic', 400, 10, 10, 1);
+    </script>
+</body>
+
+</html>

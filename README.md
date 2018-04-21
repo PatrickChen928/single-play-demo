@@ -16,3 +16,5 @@ MemoryLeak: 内存泄露实践测试
 NewOperateSteps: JS种new操作的实现步骤
 
 ImageCompress: 前端图片压缩传给服务端。服务器端：https://github.com/ChpShy/single-play-demo-server.git
+
+ImageEffect: JS实现banner效果(参考艺龙官网实现)

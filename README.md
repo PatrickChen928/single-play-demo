@@ -17,4 +17,6 @@ NewOperateSteps: JS种new操作的实现步骤
 
 ImageCompress: 前端图片压缩传给服务端。服务器端：https://github.com/ChpShy/single-play-demo-server.git
 
-ImageEffect: JS实现banner效果(参考艺龙官网实现)
+ImageEffect: JS实现banner效果(参考艺龙官网实现) <br>
+
+CommonsChunkPlugin: webpack的分离模块插件的测试场景及结果

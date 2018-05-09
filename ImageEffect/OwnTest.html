@@ -142,6 +142,7 @@
                     var lt = lNode.getBoundingClientRect().width,
                         nw = 0,
                         tw;
+                    //清除轮询
                     if ((type == "over" && lt == lht) || (type == "out" && parseInt(lt) == lW)) {
                         if (m.overTimer)
                             clearInterval(m.overTimer);

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Animation实现小手点击动画</title>
+    <style>
+        .wrapper {
+            /* position: absolute;
+            top: 50%;
+            left: 50%; */
+            position: relative;
+            overflow: hidden;
+            width: 500px;
+            height: 500px;
+            margin: 0 auto;
+            background-color: black;
+            /* margin: -250px 0 0 -250px; */
+        }
+        
+        .circle {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin: -70px 0 0 -46px;
+            background: url("./shou2.png") center center no-repeat;
+            width: 82px;
+            height: 62px;
+            animation: circleHide 1s ease infinite both;
+        }
+        
+        .finger {
+            background: url("./shou1.png") center center no-repeat;
+            width: 100px;
+            height: 140px;
+            margin: 170px auto;
+            animation: fingerHandle 1s ease infinite both;
+        }
+        
+        @keyframes fingerHandle {
+            0% {
+                transform: none;
+            }
+            70% {
+                transform: scale3d(.8, .8, .8);
+            }
+            100% {
+                transform: none;
+            }
+        }
+        
+        @keyframes circleHide {
+            0% {
+                opacity: 0;
+                transform: scale3d(0, 0, 0);
+            }
+            70% {
+                opacity: 1;
+                transform: scale3d(1.2, 1.2, 1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: scale3d(0, 0, 0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="circle"></div>
+        <div class="finger"></div>
+    </div>
+</body>
+
+</html>

@@ -22,3 +22,5 @@ ImageEffect: JS实现banner效果(参考艺龙官网实现) <br>
 CommonsChunkPlugin: webpack的分离模块插件的测试场景及结果
 
 Animation：通过CSS3的Animation实现简单的手指点击动画
+
+PandaAmination: css径向渐变实现熊猫
